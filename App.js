@@ -1,9 +1,22 @@
 import moment from 'moment';
 import React, {useState, Component}  from 'react';
-import { StyleSheet, Text, View, Button ,TouchableOpacity } from 'react-native';
-import { Calendar, DateObject, LocaleConfig } from 'react-native-calendars';
+import { StyleSheet,
+         Text,
+         View,
+         Button,
+         Dimensions, 
+         Alert,
+         TouchableOpacity
+       } from 'react-native';
+import { Calendar,
+         DateObject,
+         LocaleConfig
+        } from 'react-native-calendars';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 //CalenderScreenのコンポーネント作成
 function CalendarScreen() {
@@ -20,39 +33,45 @@ function CalendarScreen() {
 //TodayScreenのコンポーネント作成
 function TodayScreen() {
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}
-    >
-      <Text>Today</Text>
+    <View style={styles.container}>
+      <Text>
+        今日の目標は達成できた？
+      </Text>
+      <Button
+        title="できた！！"
+        style={styles.buttonShape}
+        onPress={() => Alert.alert('素敵！！明日もその調子♪')}
+      />
+      <Button
+        title="できなかった…"
+        style={styles.buttonShape}
+        onPress={() => Alert.alert('そんな日もある！明日からまた頑張ろ！')}
+      />
     </View>
-    
   );
   }
 
-//PushThisButtonのコンポーネント作成
-function PushThisButton() {
-  <View>
-  <Text style={styles.title}>
-    今日の目標は達成できた？
-  </Text>
-  <Button
-    title="できた！！"
-    onPress={() => Alert.alert('Simple Button pressed')}
-  />
-  <Button
-    title="できなかった…"
-    onPress={() => Alert.alert('Simple Button pressed')}
-  />
-</View>
-}
-
-
-
   const Tab = createBottomTabNavigator();
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop:50,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    fontSize:30
+  },
+  buttonShape:{
+    borderRadius: 40,
+    fontSize: 30,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 30,
+    },
+  calendarShape:{
+    padding:50
+  }
+});
+
 
   export default function App() {
     return (
