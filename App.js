@@ -12,8 +12,7 @@ import { Calendar,
         } from 'react-native-calendars';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Storage from 'react-native-storage';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //画面の幅を取得
 const windowWidth = Dimensions.get('window').width;
