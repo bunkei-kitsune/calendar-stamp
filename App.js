@@ -19,21 +19,18 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 //データを保存する
-const storage = new Storage({
-  // 最大容量
-  size: 1000,
-  // バックエンドにAsyncStoragnpm install @ react-native-async-storage / async-storage eを使う
-  storageBackend: AsyncStorage,
-  // キャッシュ期限(null=期限なし)
-  defaultExpires: null,
-  // メモリにキャッシュするかどうか
-  enableCache: true,
-});
+const storeData = async(value) => {
+  try {
+    await AsyncStorage.setItem('@storage_Key', value)
+  } catch (e) {
+      // エラーを保存
+  }
+}
 
 //キーのみで何かを保存（キー名のみを使用し、IDは使用しません）
 //このキーは一意である必要がある。頻繁に使用するデータ用。
 //キーと値のペアは、自分で削除しない限り、永続的に保存される。
-storage.save({
+storeData.save({
   key: 'result',
   data: {
     day: `
@@ -45,11 +42,10 @@ storage.save({
   }
 });
 
-
 //CalenderScreenのコンポーネント作成
 function CalendarScreen() {
   const navigation = useNavigation();
-  //Todayからstrageに保存したデータを読み込む
+  //TodayからstoreDataに保存したデータを読み込む
   //できた！！なら印を表示する
   return (
     <Calendar
@@ -80,21 +76,19 @@ function TodayScreen() {
       </Text>
       <Button
         title="できた！！"
-        value='good'
         style={styles.buttonShape}
         //onPressイベントにメッセージの表示処理を設定する
         onPress={() => Alert.alert('素敵！！明日もその調子♪')}
         //onPressイベントにデータの取得と保存処理を設定する
-        onPress={() => storage.save}
+        onPress={() => storeData.save}
       />
       <Button
         title="できなかった…"
-        value='bad'
         style={styles.buttonShape}
         //onPressイベントにメッセージの表示処理を設定する
         onPress={() => Alert.alert('そんな日もある！明日からまた頑張ろ！')}
 　　　　　//onPressイベントにデータの取得と保存処理を設定する
-        
+        onPress={() => storeData.save}
       />
     </View>
   );
