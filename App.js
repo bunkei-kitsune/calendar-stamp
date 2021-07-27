@@ -15,6 +15,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 //ストレージを使う準備
 const storage = new Storage({
     storageBackend: AsyncStorage
@@ -57,19 +58,27 @@ function TodayScreen() {
       this.now= new Date()
       this.today=`${this.now.getMonth()}月${this.now.getDate()}日`
       return(
-        <Text>{this.today}</Text>
+        <Text style={{
+            fontSize:20,
+            lineHeight:90,
+            letterSpacing:1,
+            marginLeft: 'auto',
+            marginRight: 'auto'}}>
+            {this.today}
+        </Text>
       )
     }
   }
 
   return (
     <View style={styles.container}>
-      <Day style={styles.date}/>
-      <Text>
+      <Day/>
+      <Text style={{fontSize:23,lineHeight:60,letterSpacing:1}}>
         今日の目標は達成できた？
       </Text>
       <Button
         title="できた！！"
+        color={'#ACE176'}
         style={styles.buttonShape}
         //onPressイベントにメッセージの表示処理を設定する
         onPress={() =>
@@ -81,7 +90,7 @@ function TodayScreen() {
       />
       <Button
         title="できなかった…"
-        color={}
+        color={'#76B1E1'}
         style={styles.buttonShape}
         //onPressイベントにメッセージの表示処理を設定する
         onPress={() => Alert.alert('そんな日もある！明日からまた頑張ろ！')}
@@ -95,23 +104,22 @@ function TodayScreen() {
 
 const styles = StyleSheet.create({
   date: {
+    flex: 1,
     marginLeft: 'auto',
-    marginRight: 'auto',
-    fontSize: 40
+    marginRight: 'auto'
   },
   container: {
+    flex: 2,
     paddingTop: 50,
     marginLeft: 'auto',
-    marginRight: 'auto',
-    fontSize: 30
+    marginRight: 'auto'
   },
   buttonShape:{
     borderRadius: 30,
-    fontSize: 30,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: 30,
-    },
+  },
   calendarShape:{
     paddingTop:50
   }
@@ -121,7 +129,19 @@ const styles = StyleSheet.create({
   export default function App() {
     return (
       <NavigationContainer>
-        <Tab.Navigator>
+        <View
+          style={{flex: 0.5,backgroundColor: '#6ED4C8'}}>
+        </View>
+        <Tab.Navigator
+            tabBarOptions={{
+                activeTintColor: '#6ED4C8',
+                inactiveTintColor: 'gray',
+                labelStyle: {
+                    fontSize:15,
+                    margin:10
+                }
+            }}
+        >
           <Tab.Screen name="Calendar" component={CalendarScreen} />
           <Tab.Screen name="Today" component={TodayScreen} />
         </Tab.Navigator>
