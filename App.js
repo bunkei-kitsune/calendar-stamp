@@ -12,7 +12,13 @@ import { Calendar,
         } from 'react-native-calendars';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+//ストレージを使う準備
+const storage = new Storage({
+    storageBackend: AsyncStorage
+});
 
 //画面の幅を取得
 const windowWidth = Dimensions.get('window').width;
@@ -27,20 +33,8 @@ const storeData = async(value) => {
   }
 }
 
-//キーのみで何かを保存（キー名のみを使用し、IDは使用しません）
-//このキーは一意である必要がある。頻繁に使用するデータ用。
-//キーと値のペアは、自分で削除しない限り、永続的に保存される。
-storeData.save({
-  key: 'result',
-  data: {
-    day: `
-    ${this.state.year}年
-    ${this.state.month}月
-    ${this.state.date}日 `,
-    result: 'some userid',
-    expires: null
-  }
-});
+
+
 
 //CalenderScreenのコンポーネント作成
 function CalendarScreen() {
@@ -61,7 +55,7 @@ function TodayScreen() {
   class Day extends React.Component{
     render(){
       this.now= new Date()
-      this.today=`${this.now.getMonth()}月${this.now.getDate()}日${this.now.getDay()}曜日`
+      this.today=`${this.now.getMonth()}月${this.now.getDate()}日`
       return(
         <Text>{this.today}</Text>
       )
@@ -78,17 +72,21 @@ function TodayScreen() {
         title="できた！！"
         style={styles.buttonShape}
         //onPressイベントにメッセージの表示処理を設定する
-        onPress={() => Alert.alert('素敵！！明日もその調子♪')}
+        onPress={() =>
+            Alert.alert(
+                '素敵！！明日もその調子♪'
+            )}
         //onPressイベントにデータの取得と保存処理を設定する
-        onPress={() => storeData.save}
+
       />
       <Button
         title="できなかった…"
+        color={}
         style={styles.buttonShape}
         //onPressイベントにメッセージの表示処理を設定する
         onPress={() => Alert.alert('そんな日もある！明日からまた頑張ろ！')}
 　　　　　//onPressイベントにデータの取得と保存処理を設定する
-        onPress={() => storeData.save}
+
       />
     </View>
   );
@@ -115,7 +113,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     },
   calendarShape:{
-    padding:50
+    paddingTop:50
   }
 });
 
